@@ -14,9 +14,11 @@ inputs:
 - {name: Evaluator Spec,            type: JSON,     default: '{}',      description: 'TFJob evaluator replicaSpecs.'}
 - {name: Tfjob Timeout Minutes,     type: Integer,  default: 1440,      description: 'Time in minutes to wait for the TFJob to complete.'}
 - {name: Delete Finished Tfjob,     type: Bool,     default: 'True' ,   description: 'Whether to delete the tfjob after it is finished.'}
+- {name: Min instances,             type: Integer,  default: 1,         description: 'Minumun available instance (DEAGON parameter)'}
+- {name: Max instances,             type: Integer,  default: 4,         description: 'Maximun available instance (DEAGON parameter)'}
 implementation:
   container:
-    image: liuhougangxa/kubeflow-tfjob-launcher:latest
+    image: gcr.io/kubernetes-271305/ml-pipeline-kubeflow-tfjob:v20200523-eb29b4e-dirty-1df980
     command: [python, /ml/launch_tfjob.py]
     args: [
       --name,                     {inputValue: Name},
@@ -32,4 +34,6 @@ implementation:
       --evaluatorSpec,            {inputValue: Evaluator Spec},
       --tfjobTimeoutMinutes,      {inputValue: Tfjob Timeout Minutes},
       --deleteAfterDone,          {inputValue: Delete Finished Tfjob},
+      --minInstances,             {inputValue: Min instances},
+      --maxInstances,             {inputValue: Max instances},
     ]

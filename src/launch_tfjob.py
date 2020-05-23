@@ -84,7 +84,13 @@ def main(argv=None):
                         help='When tfjob done, delete the tfjob automatically if it is True.')
     parser.add_argument('--tfjobTimeoutMinutes', type=int,
                         default=60*24,
-                        help='Time in minutes to wait for the TFJob to reach end')
+                        help='Time in minutes to wait for the TFJob to reach end')                        
+    parser.add_argument('--minInstances', type=int,
+                        default=1,
+                        help='Minumun available instance (DEAGON parameter)')
+    parser.add_argument('--maxInstances', type=int,
+                        default=4,
+                        help='Maximun available instance (DEAGON parameter)')
 
     args = parser.parse_args()
 
@@ -103,6 +109,8 @@ def main(argv=None):
             "namespace": args.namespace,
         },
         "spec": {
+            "max-instances":  args.maxInstances,
+            "min-instances":  args.minInstances,
             "cleanPodPolicy": args.cleanPodPolicy,
             "tfReplicaSpecs": {
             },
